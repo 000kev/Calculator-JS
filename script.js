@@ -110,6 +110,12 @@ const displayInput = () => {
 };
 
 const displayOutput = (answer) => {
+  if (answer !== undefined) {
+    if (parseFloat(number) % 1 !== 0) answer = answer.toFixed(6);
+    result.innerText = answer;
+  } else {
+    result.innerText = '';
+  }
   answer!==undefined ? result.innerText = answer : result.innerText = '';
 };
 
