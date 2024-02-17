@@ -45,8 +45,8 @@ function mulNumbers(num1, num2) {
 function divNumbers(num1, num2) {
   if (!isNaN(num1) && !isNaN(num2)) {
     if (num2 == 0) {
-      alert("The secrets to the universe won't be found by breaking this humble calculator, young Jedi.");
-      return 'Infinity & Beyond';
+      alert("The secrets to the universe won't be found by breaking this humble calculator, young Jedi. The calculator will now be reset at 0");
+      return 0;
     } else return num1 / num2;
   } else {
     return "ERROR";
