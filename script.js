@@ -247,11 +247,6 @@ const initialiseKeyboardHandler = () => {
 
 const initialiseButtonHandler = () => {
 
-  // numberBtns.forEach((button) => {
-  //   button.addEventListener("click", () => {
-  //     operation.value += button.innerText;
-  //   });
-  // });
   numberBtns.forEach( (button) => {
     button.addEventListener("click", () => displayInput(inputRules(button.value)));
   })
