@@ -7,6 +7,11 @@ const multiply_button = document.getElementById("multiply");
 const add_button = document.getElementById("add");
 const divide_button = document.getElementById("divide");
 const subtract_button = document.getElementById("subtract");
+const operator_array = [
+  equals_button, clear_button, backspace_button, 
+  multiply_button, add_button, divide_button, subtract_button
+];
+
 const operation = document.querySelector("input");
 const result = document.getElementById("result");
 
@@ -52,6 +57,7 @@ function divNumbers(num1, num2) {
     return "ERROR";
   }
 }
+
 const operate = (arr, operator) => {
   switch (operator) {
     case "+":
@@ -111,8 +117,8 @@ const displayInput = () => {
 
 const displayOutput = (answer) => {
   if (answer !== undefined) {
-    if (parseFloat(number) % 1 !== 0) answer = answer.toFixed(6);
-    result.innerText = answer;
+    if (answer % 1 !== 0) answer = answer.toFixed(6);
+    else result.innerText = answer;
   } else {
     result.innerText = '';
   }
@@ -120,38 +126,11 @@ const displayOutput = (answer) => {
 };
 
 const displayActiveOperator = (operator) => {
-  switch (operator) {
-    case "+":
-      add_button.classList.add("active");
-      subtract_button.classList.remove("active");
-      multiply_button.classList.remove("active");
-      divide_button.classList.remove("active");
-      break;
-    case "*":
-      add_button.classList.remove("active");
-      subtract_button.classList.remove("active");
-      multiply_button.classList.add("active");
-      divide_button.classList.remove("active");
-      break;
-    case "-":
-      add_button.classList.remove("active");
-      subtract_button.classList.add("active");
-      multiply_button.classList.remove("active");
-      divide_button.classList.remove("active");
-      break;
-    case "/":
-      add_button.classList.remove("active");
-      subtract_button.classList.remove("active");
-      multiply_button.classList.remove("active");
-      divide_button.classList.add("active");
-      break;
-    case "=":
-    case "Enter":
-      add_button.classList.remove("active");
-      subtract_button.classList.remove("active");
-      multiply_button.classList.remove("active");
-      divide_button.classList.remove("active");
-  }
+  operator_array.forEach( (element) => {
+    // console.log(operator, element.value === operator);
+    if (operator === "=" || operator === "Enter") element.classList.remove("active")
+    else element.value === operator ? element.classList.add("active") : element.classList.remove("active");
+  })
 };
 
 const constructNumber = (n) => {
@@ -227,32 +206,25 @@ const initialiseButtonHandler = () => {
   numberBtns.forEach( (button) => {
     button.addEventListener("click", () => displayInput(inputRules(button.value)));
   })
-  
-  add_button.addEventListener("click", () => {
-    displayInput(inputRules(add_button.value));
-    if (numberStack.length > 1) calculate(false);
-  });
-  subtract_button.addEventListener("click", () => {
-    displayInput(inputRules(subtract_button.value));
-    if (numberStack.length > 1) calculate(false);
-  });
-  multiply_button.addEventListener("click", () => {
-    displayInput(inputRules(multiply_button.value));
-    if (numberStack.length > 1) calculate(false);
-  });
-  divide_button.addEventListener("click", () => {
-    displayInput(inputRules(divide_button.value));
-    if (numberStack.length > 1) calculate(false);
-  });
-  backspace_button.addEventListener("click", () => {
-    displayInput(inputRules(backspace_button.value));
-  });
-  clear_button.addEventListener("click", () => {
-    displayInput(clear());
-    displayOutput();
-  });
-  equals_button.addEventListener("click", () => {
-    displayInput(inputRules(equals_button.value));
+
+  operator_array.forEach( (element) => {
+    if (element !== null && (element.value === "Backspace" || element.value === "="))  {
+      element.addEventListener("click", () => {
+        displayInput(inputRules(element.value))
+      })
+    }
+    else if (element !== null && (element.value == "Clear")) {
+      element.addEventListener("click", () => {
+        displayInput(clear());
+        displayOutput();
+      })
+    } 
+    else {
+      element.addEventListener("click", () => {
+        displayInput(inputRules(element.value));
+        if (numberStack.length > 1) calculate(false);
+      });
+    }
   });
 };
 
